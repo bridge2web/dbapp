@@ -1,0 +1,61 @@
+{
+  "name": "dbapp",
+  "description": "Приложение Деловой Бийск",
+  "version": "1.1.0",
+  "author": "",
+  "private": true,
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack --progress --colors --watch --hide-modules",
+    "vue-build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
+    "cordova-build": "cordova build --release android",
+    "start-dev": "concurrently --kill-others \"cordova run browser --nobuild\" \"npm run dev\"",
+    "clean-build": "del %HOME%\\Dropbox\\projects\\dbapp\\platforms\\android\\build\\outputs\\apk\\android-release-unsigned.apk",
+    "clean-aligned": "del %HOME%\\Dropbox\\projects\\dbapp\\platforms\\android\\build\\outputs\\apk\\android-release-unsigned-aligned.apk",
+    "clean-release": "del release.apk",
+    "clean": "npm run clean-build && npm run clean-aligned && npm run clean-release",
+    "zipalign": "zipalign -f -v -p 4 %HOME%\\Dropbox\\projects\\dbapp\\platforms\\android\\build\\outputs\\apk\\android-release-unsigned.apk %HOME%\\Dropbox\\projects\\dbapp\\platforms\\android\\build\\outputs\\apk\\android-release-unsigned-aligned.apk",
+    "sign": "apksigner sign --ks delovoibiysk.keystore --out release.apk %HOME%\\Dropbox\\projects\\dbapp\\platforms\\android\\build\\outputs\\apk\\android-release-unsigned-aligned.apk",
+    "verify": "apksigner verify release.apk",
+    "release": "npm run clean && npm run vue-build && npm run cordova-build && npm run zipalign && npm run sign && npm run verify"
+  },
+  "dependencies": {
+    "cordova-android": "^6.2.2",
+    "jquery": "^3.2.1",
+    "material-design-lite": "^1.3.0",
+    "slick-carousel": "^1.8.1",
+    "vue": "^2.5.10",
+    "vue-clickaway": "^2.1.0",
+    "vue-infinite-scroll": "^2.0.2",
+    "vue-mdl": "^1.1.1",
+    "vuedraggable": "^2.15.0",
+    "cordova-plugin-whitelist": "1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^6.0.0",
+    "babel-preset-latest": "^6.0.0",
+    "concurrently": "^3.5.1",
+    "cross-env": "^3.0.0",
+    "css-loader": "^0.25.0",
+    "exports-loader": "^0.6.4",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.9.0",
+    "image-webpack-loader": "^3.4.2",
+    "style-loader": "^0.16.1",
+    "url-loader": "^0.5.8",
+    "vue-collapse": "^1.0.31",
+    "vue-loader": "^11.1.4",
+    "vue-router": "^2.8.1",
+    "vue-template-compiler": "^2.5.10",
+    "vue-touch": "git://github.com/vuejs/vue-touch.git#next",
+    "webpack": "^2.2.0"
+  },
+  "cordova": {
+    "plugins": {
+      "cordova-plugin-whitelist": {}
+    },
+    "platforms": [
+      "android"
+    ]
+  }
+}
